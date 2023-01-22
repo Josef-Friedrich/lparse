@@ -1,0 +1,24 @@
+\documentclass{article}
+\begin{document}
+
+\NewDocumentCommand{\tmp}{o m}{
+  \directlua{
+    print('1: #1', '2: #2')
+  }
+}
+
+\tmp[oarg]{marg}% 1: oarg	2: marg
+\tmp [oarg] {marg}% 1: oarg	2: marg
+
+%\tmp[{marg} % Runaway argument? [{marg} ! Paragraph ended before \tmp  was complete.
+\tmp]{marg}% 1: -NoValue-	2: ]
+
+%\tmp[[]{marg}% Runaway argument? \ERROR {marg} ! Paragraph ended before \tmp  was complete.
+\tmp[{[}]{marg}% 1: [	2: marg
+
+\tmp[]]{marg}% 1: 	2: ]
+\tmp[{]}]{marg}% 1: ]	2: marg
+
+\tmp[[]]{marg}% 1: []	2: marg
+
+\end{document}

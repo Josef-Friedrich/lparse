@@ -1,0 +1,24 @@
+\documentclass{article}
+\begin{document}
+
+\newcommand{\tmp}[2][]{
+  \directlua{
+    print('1: #1', '2: #2')
+  }
+}
+
+\tmp[oarg]{marg}% 1: oarg	2: marg
+\tmp [oarg] {marg}% 1: oarg	2: marg
+
+% \tmp[{marg} % Runaway argument? {marg} \par \end {document}
+\tmp]{marg}% 1: 	2: ]
+
+\tmp[[]{marg}% 1: [	2: marg
+\tmp[{[}]{marg}% 1: [	2: marg
+
+\tmp[]]{marg}% 1: 	2: ]
+\tmp[{]}]{marg}% 1: ]	2: marg
+
+\tmp[[]]{marg}% 1: [	2: ]
+
+\end{document}
