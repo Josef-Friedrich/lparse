@@ -1,0 +1,16 @@
+\directlua{lparse = require('lparse')}
+
+\def\scan{\directlua{lparse.scan_oarg()}}
+
+\scan no argument
+
+\scan {mandatory argument}
+
+\scan[without a space]
+
+\scan [with a space]
+
+\scan
+[newline]
+
+\bye
