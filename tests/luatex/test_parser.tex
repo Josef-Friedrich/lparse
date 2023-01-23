@@ -1,0 +1,9 @@
+\directlua{
+  lparse = require('lparse')
+  parser = lparse.Parser({})
+  parser:set_result('one', 'two', 'three')
+
+  parser:assert('one', 'two', 'three')
+}
+
+\bye
