@@ -54,12 +54,8 @@ local function scan_oarg(initial_delimiter,
       table.insert(output, char)
       char, t = get_next_char()
     end
-
-    local result = table.concat(output, '')
-    print(result)
-    return result
+    return table.concat(output, '')
   else
-    print('no argument')
     token.put_next(t)
   end
 end
@@ -72,16 +68,36 @@ end
 ---@field star? boolean
 
 ---@class Parser
-Parser = {}
+---@field args Argument[]
+---@field result any[]
+local Parser = {}
 ---@private
 Parser.__index = Parser
 
-function Parser:parse(spec)
+function Parser:new(spec)
   local parser = {}
   setmetatable(parser, Parser)
   parser.spec = spec
   parser.args = parser:convert_spec_to_args(spec)
+  parser.result = parser:parse(parser.args)
   return parser
+end
+
+---@return any[]
+function Parser:parse()
+  local result = {}
+  local index = 1
+  for _, arg in pairs(self.args) do
+    if arg.star then
+      result[index] = token.scan_keyword('*')
+    elseif arg.optional then
+      result[index] = scan_oarg()
+    else
+      result[index] = token.scan_argument(false)
+    end
+    index = index + 1
+  end
+  return result
 end
 
 ---@private
@@ -90,7 +106,6 @@ end
 function Parser:convert_spec_to_args(spec)
   local args = {}
   for a in spec:gmatch('%S+') do
-    print(a)
     local arg = {}
     if a == 'm' then
       arg.optional = false
@@ -119,8 +134,9 @@ function Parser:assert(...)
   end
 end
 
+---@return Parser
 local function create_parser(spec)
-  return Parser:parse(spec)
+  return Parser:new(spec)
 end
 
 return { Parser = create_parser, scan_oarg = scan_oarg }
