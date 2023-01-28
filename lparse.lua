@@ -107,7 +107,7 @@ end
 ---@param end_delim? string # The character that marks the end of an optional argument (by default `]`).
 ---
 ---@return string|nil # The string that was enclosed by the delimiters. The delimiters themselves are not returned.
-local function scan_oarg(init_delim, end_delim)
+local function scan_delimited(init_delim, end_delim)
   if init_delim == nil then
     init_delim = '['
   end
@@ -143,6 +143,10 @@ local function scan_oarg(init_delim, end_delim)
   end
 
   local char, t = get_next_char()
+
+  if t.cmdname == 'spacer' then
+    char, t = get_next_char()
+  end
 
   if char == init_delim then
     local output = {}
@@ -194,7 +198,7 @@ function Parser:parse()
     if arg.star then
       result[index] = token.scan_keyword('*')
     elseif arg.optional then
-      local oarg = scan_oarg(arg.init_delim, arg.end_delim)
+      local oarg = scan_delimited(arg.init_delim, arg.end_delim)
       if arg.default and oarg == nil then
         oarg = arg.default
       end
@@ -238,6 +242,6 @@ end
 return {
   Parser = create_parser,
   scan = scan,
-  scan_oarg = scan_oarg,
+  scan_oarg = scan_delimited,
   parse_spec = parse_xparse_spec,
 }

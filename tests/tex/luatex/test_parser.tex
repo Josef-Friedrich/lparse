@@ -23,7 +23,7 @@
 \test{o m}{nil, 'marg'}{marg}
 
 % multiple oargs
-\test{o o m}{'oarg1', 'oarg2', 'marg'}[oarg1][oarg2]{marg}
+\test{o o m}{'oarg1', 'oarg2', 'marg'}[oarg1]  [oarg2]{marg}
 
 % star = true
 \test{s m}{true, 'marg'}*{marg}
@@ -36,10 +36,16 @@
 
 \test{o}{'oarg'}[oarg]
 
-%\test{o}{'oarg'} [oarg]
+\test{o}{'oarg'} [oarg]
 
-% \test{o}{'oarg'}
-% [oarg]
+\test{o}{'oarg'}
+[oarg]
+
+\test{o}{' oarg '}
+[
+oarg
+]
+
 \test{d<>}{'oarg'}<oarg>
 
 \bye
