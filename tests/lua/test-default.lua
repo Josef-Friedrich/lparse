@@ -2,12 +2,15 @@ require('busted.runner')()
 
 local lparse = require('lparse')
 
-local Parser = lparse.Parser
+local parse = lparse.parse_spec
 
-describe('Class Parser', function()
+describe('Function parse_spec', function()
   it('Constructor', function()
-    local parser = Parser(' s\no  m \to ')
-    assert.are.same(parser.args[1], { star = true, optional = true })
+    assert.are.same(parse(' s\no \t m '), {
+      { argument_type = 's', star = true },
+      { argument_type = 'o', optional = true },
+      { argument_type = 'm' },
+    })
   end)
 
 end)

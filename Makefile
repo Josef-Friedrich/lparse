@@ -12,7 +12,7 @@ install:
 debug:
 	luatex tests/luatex/test_default.tex
 
-test: install test_lua
+test: install test_lua test_tex
 
 test_lua:
 	busted --lua=/usr/bin/lua5.3 --exclude-tags=skip tests/lua/test-*.lua

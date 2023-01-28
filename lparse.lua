@@ -217,9 +217,23 @@ function Parser:assert(...)
   end
 end
 
+function Parser:export()
+  return table.unpack(self.result)
+end
+
 ---@return Parser
 local function create_parser(spec)
   return Parser:new(spec)
 end
 
-return { Parser = create_parser, scan_oarg = scan_oarg }
+local function scan(spec)
+  local parser = create_parser(spec)
+  return parser:export()
+end
+
+return {
+  Parser = create_parser,
+  scan = scan,
+  scan_oarg = scan_oarg,
+  parse_spec = parse_xparse_spec,
+}
