@@ -1,0 +1,37 @@
+\let\l=\directlua
+
+\l{
+  lparse = require('lparse')
+  Parser = lparse.Parser
+}
+
+\def\test#1#2{\l{Parser('#1'):assert(#2)}}
+
+% Mandatory arguments
+\test{m m m}{'one', 'two', 'three'}{one}{two}{three}
+
+% Mandatory separated with spaces
+\test{m m m}{'one', 'two', 'three'} {one} {two} {three}
+
+% Single token als mandatory arguments
+\test{m m m}{'a', 'b', 'c'} a b c
+
+% oarg
+\test{o m}{'oarg', 'marg'}[oarg]{marg}
+
+% oarg not set
+\test{o m}{nil, 'marg'}{marg}
+
+% multiple oargs
+\test{o o m}{'oarg1', 'oarg2', 'marg'}[oarg1][oarg2]{marg}
+
+% star = true
+\test{s m}{true, 'marg'}*{marg}
+
+% star = false
+\test{s m}{false, 'marg'}{marg}
+
+% multiple stars
+\test{s m s}{true, 'marg', true} * {marg} *
+
+\bye

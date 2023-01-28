@@ -48,20 +48,95 @@ local function scan_oarg(initial_delimiter,
 
     char, t = get_next_char()
 
-    --“while” better than “repeat ... until”: The end_delimiter is
-    --included in the result output.
+    -- “while” better than “repeat ... until”: The end_delimiter is
+    -- included in the result output.
     while not (char == end_delimiter and delimiter_stack == 0) do
       table.insert(output, char)
       char, t = get_next_char()
     end
-
-    local result = table.concat(output, '')
-    print(result)
-    return result
+    return table.concat(output, '')
   else
-    print('no argument')
     token.put_next(t)
   end
 end
 
-return { scan_oarg = scan_oarg }
+---@class Argument
+---@field optional? boolean
+---@field init_delim? string
+---@field end_delim? string
+---@field dest? string
+---@field star? boolean
+
+---@class Parser
+---@field args Argument[]
+---@field result any[]
+local Parser = {}
+---@private
+Parser.__index = Parser
+
+function Parser:new(spec)
+  local parser = {}
+  setmetatable(parser, Parser)
+  parser.spec = spec
+  parser.args = parser:convert_spec_to_args(spec)
+  parser.result = parser:parse(parser.args)
+  return parser
+end
+
+---@return any[]
+function Parser:parse()
+  local result = {}
+  local index = 1
+  for _, arg in pairs(self.args) do
+    if arg.star then
+      result[index] = token.scan_keyword('*')
+    elseif arg.optional then
+      result[index] = scan_oarg()
+    else
+      result[index] = token.scan_argument(false)
+    end
+    index = index + 1
+  end
+  return result
+end
+
+---@private
+---@param spec string
+---@return Argument[]
+function Parser:convert_spec_to_args(spec)
+  local args = {}
+  for a in spec:gmatch('%S+') do
+    local arg = {}
+    if a == 'm' then
+      arg.optional = false
+    elseif a == 'o' then
+      arg.optional = true
+    elseif a == 's' then
+      arg.optional = true
+      arg.star = true
+    end
+    table.insert(args, arg)
+  end
+  return args
+end
+
+---@private
+function Parser:set_result(...)
+  self.result = { ... }
+end
+
+function Parser:assert(...)
+  local arguments = { ... }
+  for index, arg in ipairs(arguments) do
+    assert(self.result[index] == arg, string.format(
+      'Argument at index %d doesn’t match: “%s” != “%s”',
+      index, self.result[index], arg))
+  end
+end
+
+---@return Parser
+local function create_parser(spec)
+  return Parser:new(spec)
+end
+
+return { Parser = create_parser, scan_oarg = scan_oarg }
