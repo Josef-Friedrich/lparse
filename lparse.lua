@@ -64,7 +64,7 @@ local function parse_xparse_spec(spec)
     init = V('whitespace') ^ 0 *
       CaptureFolding(CaptureTable('') * V('list'), add_result),
 
-    list = (V('arg') * V('whitespace') ^ 1) ^ 1 * V('arg') ^ -1,
+    list = (V('arg') * V('whitespace') ^ 1) ^ 0 * V('arg') ^ -1,
 
     arg = V('m') + V('r') + V('R') + V('o') + V('d') + V('O') + V('D') +
       V('s'),
@@ -194,7 +194,11 @@ function Parser:parse()
     if arg.star then
       result[index] = token.scan_keyword('*')
     elseif arg.optional then
-      result[index] = scan_oarg()
+      local oarg = scan_oarg(arg.init_delim, arg.end_delim)
+      if arg.default and oarg == nil then
+        oarg = arg.default
+      end
+      result[index] = oarg
     else
       result[index] = token.scan_argument(false)
     end
