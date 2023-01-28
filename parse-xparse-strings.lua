@@ -1,4 +1,4 @@
-local lpeg = require('lpeg')
+-- local lpeg = require('lpeg')
 local Variable = lpeg.V
 local Pattern = lpeg.P
 local Set = lpeg.S
