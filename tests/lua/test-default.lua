@@ -13,6 +13,36 @@ describe('Function parse_spec', function()
     })
   end)
 
+  it('m', function()
+    assert.are.same(parse('m'), { { argument_type = 'm' } })
+  end)
+
+  it('r', function()
+    assert.are.same(parse('r<>'), {
+      { argument_type = 'r', end_delim = '>', init_delim = '<' },
+    })
+  end)
+
+  it('R', function()
+    assert.are.same(parse('R<>{default}'), {
+      {
+        argument_type = 'R',
+        end_delim = '>',
+        init_delim = '<',
+        default = 'default',
+      },
+    })
+  end)
+
+  it('v', function()
+    assert.are.same(parse('v'), {
+      {
+        argument_type = 'v',
+        verbatim = true,
+      },
+    })
+  end)
+
   it('o', function()
     assert.are.same(parse('o'),
       { { argument_type = 'o', optional = true } })
@@ -48,12 +78,13 @@ describe('Function parse_spec', function()
   end)
 
   it('s', function()
-    assert.are.same(parse('s'), {
-      {
-        argument_type = 's',
-        star = true
-      },
-    })
+    assert.are
+      .same(parse('s'), { { argument_type = 's', star = true } })
+  end)
+
+  it('t', function()
+    assert.are
+      .same(parse('t+'), { { argument_type = 't', token = '+' } })
   end)
 
 end)

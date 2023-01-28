@@ -27,6 +27,10 @@ local function parse_xparse_spec(spec)
     return { init_delim = a, end_delim = b }
   end
 
+  local function collect_token(a)
+    return { token = a }
+  end
+
   local function set_default(a)
     return { default = a }
   end
@@ -66,14 +70,16 @@ local function parse_xparse_spec(spec)
 
     list = (V('arg') * V('whitespace') ^ 1) ^ 0 * V('arg') ^ -1,
 
-    arg = V('m') + V('r') + V('R') + V('o') + V('d') + V('O') + V('D') +
-      V('s'),
+    arg = V('m') + V('r') + V('R') + V('v') + V('o') + V('d') + V('O') +
+      V('D') + V('s') + V('t'),
 
     m = T('m') / combine,
 
     r = T('r') * V('delimiters') / combine,
 
     R = T('R') * V('delimiters') * V('default') / combine,
+
+    v = T('v') * Cc({ verbatim = true }) / combine,
 
     o = T('o') * Cc({ optional = true }) / combine,
 
@@ -85,6 +91,10 @@ local function parse_xparse_spec(spec)
       Cc({ optional = true }) / combine,
 
     s = T('s') * Cc({ star = true }) / combine,
+
+    t = T('t') * V('token') / combine,
+
+    token = V('delimiter') / collect_token,
 
     delimiter = CaptureSimple(Range('!~')),
 
@@ -173,6 +183,8 @@ end
 ---@field dest? string
 ---@field star? boolean
 ---@field default? string
+---@field verbatim? boolean
+---@field token? string
 
 ---@class Parser
 ---@field args Argument[]
@@ -197,6 +209,8 @@ function Parser:parse()
   for _, arg in pairs(self.args) do
     if arg.star then
       result[index] = token.scan_keyword('*')
+    elseif arg.token then
+      result[index] = token.scan_keyword(arg.token)
     elseif arg.optional then
       local oarg = scan_delimited(arg.init_delim, arg.end_delim)
       if arg.default and oarg == nil then

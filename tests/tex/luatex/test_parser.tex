@@ -34,6 +34,8 @@
 % multiple stars
 \test{s m s}{true, 'marg', true} * {marg} *
 
+% o
+
 \test{o}{'oarg'}[oarg]
 
 \test{o}{'oarg'} [oarg]
@@ -46,6 +48,16 @@
 oarg
 ]
 
-\test{d<>}{'oarg'}<oarg>
+% d
 
+\test{d<>}{'oarg'}<oarg>
+\test{d<>}{nil}[oarg]
+
+% t
+
+\test{t+}{true}+
+\test{t+}{true} +
+\test{t+}{true}
++
+\test{t+}{false} *
 \bye
