@@ -48,6 +48,8 @@
 
 \maketitle
 
+\InputLatex[firstline=5,lastline=14]{title-page.tex}
+
 \newpage
 
 \tableofcontents
@@ -57,9 +59,7 @@
 % \section{Einführung}
 \section{Introduction}
 
-\href{http://mirrors.ctan.org/macros/latex/base/usrguide.pdf}{usrguide}
 
-\href{http://mirrors.ctan.org/macros/latex/contrib/l3packages/xparse.pdf}{xparse}
 
 \href{http://www.pragma-ade.nl/general/manuals/cld-mkiv.pdf}{cld-mkiv}
 
@@ -68,6 +68,10 @@
 \href{https://github.com/contextgarden/context/blob/main/tex/context/base/mkiv/toks-ini.lua}{toks-ini.lua}
 
 \href{https://github.com/contextgarden/context/blob/main/source/luametatex/source/lua/lmttokenlib.c}{lmttokenlib.c}
+
+\href{http://mirrors.ctan.org/macros/latex/base/usrguide.pdf}{usrguide}
+
+\href{http://mirrors.ctan.org/macros/latex/contrib/l3packages/xparse.pdf}{xparse}
 
 % /usr/local/texlive/texmf-dist/source/latex/l3packages/xparse/xparse.dtx
 \begin{itemize}
@@ -79,12 +83,12 @@
   \item[r] Given as \texttt{r}\meta{token1}\meta{token2}, this denotes a
     \enquote{required} delimited argument, where the delimiters are
     \meta{token1} and \meta{token2}. If the opening delimiter
-    \meta{token1} is missing, the default marker |-NoValue-| will be
-    inserted after a suitable error.
+    \meta{token1} is missing, |nil| will be
+    returned after a suitable error.
   \item[R] Given as \texttt{R}\meta{token1}\meta{token2}\marg{default},
     this is a \enquote{required} delimited argument as for~\texttt{r},
     but it has a user-definable recovery \meta{default} instead of
-    |-NoValue-|.
+    |nil|.
   \item[v] Reads an argument \enquote{verbatim}, between the following
     character and its next occurrence, in a way similar to the argument
     of the \LaTeXe{} command \cs{verb}. Thus a \texttt{v}-type argument
@@ -96,18 +100,17 @@
     another function.
   \item[(b)] Not implemented! Only suitable in the argument specification of an
     environment, it denotes the body of the environment, between
-    |\begin|\marg{environment} and |\end|\marg{environment}.  See
-    Section~\ref{sec:body} for details.
+    |\begin|\marg{environment} and |\end|\marg{environment}.
 \end{itemize}
 The types which define optional arguments are:
 \begin{itemize}
   \item[o] A standard \LaTeX{} optional argument, surrounded with square
     brackets, which will supply
-    the special |-NoValue-| marker if not given (as described later).
+    |nil| if not given (as described later).
   \item[d] Given as \texttt{d}\meta{token1}\meta{token2}, an optional
     argument which is delimited by \meta{token1} and \meta{token2}.
     As with \texttt{o}, if no
-    value is given the special marker |-NoValue-| is returned.
+    value is given |nil| is returned.
   \item[O] Given as \texttt{O}\marg{default}, is like \texttt{o}, but
     returns \meta{default} if no value is given.
   \item[D] Given as \texttt{D}\meta{token1}\meta{token2}\marg{default},
@@ -115,10 +118,10 @@ The types which define optional arguments are:
     Internally, the \texttt{o}, \texttt{d} and \texttt{O} types are
     short-cuts to an appropriated-constructed \texttt{D} type argument.
   \item[s] An optional star, which will result in a value
-    \cs{BooleanTrue} if a star is present and \cs{BooleanFalse}
+    |true| if a star is present and |false|
     otherwise (as described later).
   \item[t] An optional \meta{token}, which will result in a value
-    \cs{BooleanTrue} if \meta{token} is present and \cs{BooleanFalse}
+    |true| if \meta{token} is present and |false|
     otherwise. Given as \texttt{t}\meta{token}.
   \item[(e)] Not implemented! Given as \texttt{e}\marg{tokens}, a set of optional
     \emph{embellishments}, each of which requires a \emph{value}.
@@ -127,8 +130,7 @@ The types which define optional arguments are:
     \meta{tokens} in the argument specification.  All \meta{tokens}
     must be distinct.  \emph{This is an experimental type}.
   \item[(E)] Not implemented! As for \texttt{e} but returns one or more \meta{defaults}
-    if values are not given: \texttt{E}\marg{tokens}\marg{defaults}. See
-    Section~\ref{sec:embellishment} for more details.
+    if values are not given: \texttt{E}\marg{tokens}\marg{defaults}.
 \end{itemize}
 
 \clearpage

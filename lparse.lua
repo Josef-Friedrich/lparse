@@ -275,8 +275,18 @@ function Parser:assert(...)
   end
 end
 
+---
+---@return string|boolean|nil ...
 function Parser:export()
-  return table.unpack(self.result)
+  -- #self.arg: to get all elements of the result table, also elements
+  -- with nil values.
+  return table.unpack(self.result, 1, #self.args)
+end
+
+function Parser:debug()
+  for index = 1, #self.args do
+    print(index, self.result[index])
+  end
 end
 
 ---@return Parser
@@ -289,8 +299,4 @@ local function scan(spec)
   return parser:export()
 end
 
-return {
-  Parser = create_parser,
-  scan = scan,
-  parse_spec = parse_spec,
-}
+return { Parser = create_parser, scan = scan, parse_spec = parse_spec }

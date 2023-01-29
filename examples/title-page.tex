@@ -1,0 +1,16 @@
+\documentclass{article}
+\usepackage{lparse}
+\begin{document}
+
+\def\test{\par\directlua{
+  local oarg, star, marg = lparse.scan('o s m')
+  tex.print('o: ' .. tostring(oarg))
+  tex.print('s: ' .. tostring(star))
+  tex.print('m: ' .. tostring(marg))
+}}
+
+\test{marg} % o: nil s: false m: marg
+\test[oarg]{marg} % o: oarg s: false m: marg
+\test[oarg]*{marg} % o: oarg s: true m: marg
+
+\end{document}
