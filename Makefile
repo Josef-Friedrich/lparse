@@ -8,6 +8,31 @@ all: install
 install:
 	mkdir -p $(installdir)
 	cp -f $(jobname).lua $(installdir)
+	cp -f $(jobname).sty $(installdir)
+	cp -f $(jobname).tex $(installdir)
+
+doc: doc_pdf
+
+doc_pdf:
+	lualatex --shell-escape documentation.tex
+	makeindex -s gglo.ist -o documentation.gls documentation.glo
+	makeindex -s gind.ist -o documentation.ind documentation.idx
+	lualatex --shell-escape documentation.tex
+	mkdir -p $(texmf)/doc
+	cp documentation.pdf $(texmf)/doc/$(jobname).pdf
+
+ctan: doc_pdf
+	rm -rf $(jobname).tar.gz
+	rm -rf $(jobname)/
+	mkdir $(jobname)
+	cp -f README.md $(jobname)/
+	cp -f $(jobname).lua $(jobname)/
+	cp -f $(jobname).sty $(jobname)/
+	cp -f $(jobname).tex $(jobname)/
+	cp -f documentation.pdf $(jobname)/$(jobname).pdf
+	cp -f documentation.tex $(jobname)/
+	tar cvfz $(jobname).tar.gz $(jobname)
+	rm -rf $(jobname)
 
 debug:
 	luatex tests/luatex/test_default.tex

@@ -41,8 +41,8 @@
 \author{%
   Josef Friedrich\\%
   \url{josef@friedrich.rocks}\\%
-  \href{https://github.com/Josef-Friedrich/tex-project-lparse}
-       {github.com/Josef-Friedrich/tex-project-lparse}%
+  \href{https://github.com/Josef-Friedrich/lparse}
+       {github.com/Josef-Friedrich/lparse}%
 }
 \date{0.1.0 from 2022/12/30}
 
@@ -58,7 +58,7 @@
 \section{Introduction}
 
 % /usr/local/texlive/texmf-dist/source/latex/l3packages/xparse/xparse.dtx
-\begin{itemize}[font=\ttfamily]
+\begin{itemize}
   \item[m] A standard mandatory argument, which can either be a single
     token alone or multiple tokens surrounded by curly braces |{}|.
     Regardless of the input, the argument will be passed to the
@@ -82,13 +82,13 @@
     A command with a verbatim
     argument will produce an error when it appears within an argument of
     another function.
-  \item[b] Only suitable in the argument specification of an
+  \item[(b)] Not implemented! Only suitable in the argument specification of an
     environment, it denotes the body of the environment, between
     |\begin|\marg{environment} and |\end|\marg{environment}.  See
     Section~\ref{sec:body} for details.
 \end{itemize}
 The types which define optional arguments are:
-\begin{itemize}[font=\ttfamily]
+\begin{itemize}
   \item[o] A standard \LaTeX{} optional argument, surrounded with square
     brackets, which will supply
     the special |-NoValue-| marker if not given (as described later).
@@ -108,13 +108,13 @@ The types which define optional arguments are:
   \item[t] An optional \meta{token}, which will result in a value
     \cs{BooleanTrue} if \meta{token} is present and \cs{BooleanFalse}
     otherwise. Given as \texttt{t}\meta{token}.
-  \item[e] Given as \texttt{e}\marg{tokens}, a set of optional
+  \item[(e)] Not implemented! Given as \texttt{e}\marg{tokens}, a set of optional
     \emph{embellishments}, each of which requires a \emph{value}.
     If an embellishment is not present, |-NoValue-| is returned.  Each
     embellishment gives one argument, ordered as for the list of
     \meta{tokens} in the argument specification.  All \meta{tokens}
     must be distinct.  \emph{This is an experimental type}.
-  \item[E] As for \texttt{e} but returns one or more \meta{defaults}
+  \item[(E)] Not implemented! As for \texttt{e} but returns one or more \meta{defaults}
     if values are not given: \texttt{E}\marg{tokens}\marg{defaults}. See
     Section~\ref{sec:embellishment} for more details.
 \end{itemize}
@@ -141,10 +141,6 @@ The types which define optional arguments are:
 
 \inputminted[linenos=true]{latex}{lparse.tex}
 
-\changes{0.1.0}{2022/12/30}{Inital release}
-
-\pagebreak
-\PrintChanges
 \pagebreak
 \PrintIndex
 \end{document}
