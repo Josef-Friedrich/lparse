@@ -7,6 +7,10 @@
 
 \def\test#1#2{\l{Parser('#1'):assert(#2)}}
 
+% m
+
+\test{m}{'marg'} {marg}
+
 % Mandatory arguments
 \test{m m m}{'one', 'two', 'three'}{one}{two}{three}
 
@@ -16,14 +20,52 @@
 % Single token als mandatory arguments
 \test{m m m}{'a', 'b', 'c'} a b c
 
+% r
+
+\test{r<>}{'required'}<required>
+\test{r<>}{'required'}   <required>
+\test{r<>}{' required '}   < required >
+\test{r<>}{' required '}   <  required  >
+% \test{r<>}{}[oarg]
+
+% R
+
+\test{R<>{default}}{' required '}   <  required  >
+\test{R<>{default}}{'default'}[oarg]
+
+% v
+
+\test{v}{'v'} {v}
+% \test{v}{'v'}
+
+% o
+
 % oarg
 \test{o m}{'oarg', 'marg'}[oarg]{marg}
 
 % oarg not set
 \test{o m}{nil, 'marg'}{marg}
 
+\test{o}{'oarg'}[oarg]
+
+\test{o}{'oarg'} [oarg]
+
+\test{o}{'oarg'}
+[oarg]
+
+\test{o}{'[[[]]]'}[[[[]]]]{}
+
+\test{o}{'[[]]klammer[] klammer[[]]'}[[[]]klammer[] klammer[[]]]{}
+
 % multiple oargs
 \test{o o m}{'oarg1', 'oarg2', 'marg'}[oarg1]  [oarg2]{marg}
+
+% d
+
+\test{d<>}{'oarg'}<oarg>
+\test{d<>}{nil}[oarg]
+
+% s
 
 % star = true
 \test{s m}{true, 'marg'}*{marg}
@@ -33,25 +75,6 @@
 
 % multiple stars
 \test{s m s}{true, 'marg', true} * {marg} *
-
-% o
-
-\test{o}{'oarg'}[oarg]
-
-\test{o}{'oarg'} [oarg]
-
-\test{o}{'oarg'}
-[oarg]
-
-\test{o}{' oarg '}
-[
-oarg
-]
-
-% d
-
-\test{d<>}{'oarg'}<oarg>
-\test{d<>}{nil}[oarg]
 
 % t
 

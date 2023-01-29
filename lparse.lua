@@ -208,17 +208,35 @@ function Parser:parse()
   local index = 1
   for _, arg in pairs(self.args) do
     if arg.star then
+      -- s
       result[index] = token.scan_keyword('*')
     elseif arg.token then
+      -- t
       result[index] = token.scan_keyword(arg.token)
     elseif arg.optional then
+      -- o d O D
       local oarg = scan_delimited(arg.init_delim, arg.end_delim)
       if arg.default and oarg == nil then
         oarg = arg.default
       end
       result[index] = oarg
+    elseif arg.init_delim and arg.end_delim then
+      -- r R
+      local oarg = scan_delimited(arg.init_delim, arg.end_delim)
+      if arg.default and oarg == nil then
+        oarg = arg.default
+      end
+      if oarg == nil then
+        tex.error('Missing required argument')
+      end
+      result[index] = oarg
     else
-      result[index] = token.scan_argument(false)
+      -- m v
+      local marg = token.scan_argument(arg.verbatim ~= true)
+      if marg == nil then
+        tex.error('Missing required argument')
+      end
+      result[index] = marg
     end
     index = index + 1
   end
