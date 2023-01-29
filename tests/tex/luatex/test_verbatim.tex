@@ -1,0 +1,11 @@
+\directlua{
+  test = require('tests/tex/luatex/test_verbatim.lua')
+}
+
+\def\test#1{\directlua{test.assert_#1()}}
+
+\test{mandatory}{{\bf bold}}
+
+\test{verbatim}{{\bf bold}}
+
+\bye

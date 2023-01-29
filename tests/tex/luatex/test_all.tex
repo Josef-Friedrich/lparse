@@ -1,11 +1,9 @@
-\let\l=\directlua
-
-\l{
+\directlua{
   lparse = require('lparse')
   Parser = lparse.Parser
 }
 
-\def\test#1#2{\l{Parser('#1'):assert(#2)}}
+\def\test#1#2{\directlua{Parser('#1'):assert(#2)}}
 
 % m
 
@@ -64,6 +62,18 @@
 
 \test{d<>}{'oarg'}<oarg>
 \test{d<>}{nil}[oarg]
+
+% O
+
+\test{O{default}}{'oarg'} [oarg]
+
+\test{O{default}}{'default'}
+
+% D
+
+\test{D<>{default}}{'oarg'} <oarg>
+
+\test{D<>{default}}{'default'}
 
 % s
 
