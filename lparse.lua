@@ -23,7 +23,7 @@ end
 ---
 ---@param spec string
 ---@return Argument[]
-local function parse_xparse_spec(spec)
+local function parse_spec(spec)
   local V = lpeg.V
   local P = lpeg.P
   local Set = lpeg.S
@@ -215,7 +215,7 @@ function Parser:new(spec)
   local parser = {}
   setmetatable(parser, Parser)
   parser.spec = spec
-  parser.args = parse_xparse_spec(spec)
+  parser.args = parse_spec(spec)
   parser.result = parser:parse(parser.args)
   return parser
 end
@@ -292,6 +292,5 @@ end
 return {
   Parser = create_parser,
   scan = scan,
-  scan_oarg = scan_delimited,
-  parse_spec = parse_xparse_spec,
+  parse_spec = parse_spec,
 }
