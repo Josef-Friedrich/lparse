@@ -3,7 +3,7 @@ texmf = $(HOME)/texmf
 texmftex = $(texmf)/tex/luatex
 installdir = $(texmftex)/$(jobname)
 
-all: install
+all: test doc
 
 install:
 	mkdir -p $(installdir)
