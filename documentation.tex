@@ -59,17 +59,65 @@
 % \section{Einführung}
 \section{Introduction}
 
-\href{http://www.pragma-ade.nl/general/manuals/cld-mkiv.pdf}{cld-mkiv}
+% Der Name |lparse| ist von |xparse| abgeleitet.
+The name |lparse| is derived from |xparse|.
+%
+% Das |x| wurde durch |l| ersetzt, da dieses Packet nur zusammen mit
+% Lua\TeX{} funktioniert.
+The |x| has been replaced by |l| because this package only works with Lua\TeX{}.
+%
+% |l| steht für \emph{Lua}
+|l| stands for \emph{Lua}.
+%
+% Ebenso wie bei dem Paket |xparse| ist es möglich, die Argumente eines
+% Makros mit Hilfe einer speziellen Syntax bestehend aus einzelnen
+% Buchstaben zu beschreiben.
+Just as with |xparse|, it is possible to use a special syntax consisting
+of single letters to express the arguments of a macro.
+%
+% |lparse| ist jedoch im Stande unabhängig von der verwendeten
+% Makrosammlung - ob LaTeX oder ConTeXt oder sogar Plain TeX - Argumente
+% einzulesen.
+However, |lparse| is able to read arguments regardless of the macro
+collection used - whether \LaTeX{} or Con\TeX{}t or even plain \TeX.
+%
+% Als Engine musst natürlich immer LuaTeX verwendet werden.
+Of course, Lua\TeX{} must always be used as the engine.
 
+\subsection{Similar projects}
+
+% Für ConTeXt gibt es einen ähnlichen Argumenten scanner.
+For Con\TeX{}t there is a similar argument scanner (see Con\TeX{}t Lua
+Document
+\href{http://www.pragma-ade.nl/general/manuals/cld-mkiv.pdf}{cld-mkiv}).
+%
+% Dieser Scanner ist in folgenden Dateien implementiert
+This scanner is implemented in the following files:
 \href{https://github.com/contextgarden/context/blob/main/tex/context/base/mkiv/toks-scn.lua}{toks-scn.lua}
 \href{https://github.com/contextgarden/context/blob/main/tex/context/base/mkiv/toks-aux.lua}{toks-aux.lua}
 \href{https://github.com/contextgarden/context/blob/main/tex/context/base/mkiv/toks-ini.lua}{toks-ini.lua}
-
+% Con\TeX{}t scanner verwendet offenbar die Token Bibliothek des LuaTeX Nachfolgeprojekts luametaTeX
+%
+Con\TeX{}t scanner apparently uses the token library of the LuaTeX
+successor project luameta\TeX:
 \href{https://github.com/contextgarden/context/blob/main/source/luametatex/source/lua/lmttokenlib.c}{lmttokenlib.c}
 
+\section{Description of the argument specification}
+%
+% Folgende Listen, die die Argumenttypen beschreiben, entstammen den
+% Handbücher usrguide bzw. xparse.
+The following lists, which describe the individual argument types, are
+taken from the manuals
 \href{http://mirrors.ctan.org/macros/latex/base/usrguide.pdf}{usrguide}
-
-\href{http://mirrors.ctan.org/macros/latex/contrib/l3packages/xparse.pdf}{xparse}
+and
+\href{http://mirrors.ctan.org/macros/latex/contrib/l3packages/xparse.pdf}{xparse}.
+%
+% Die Beschreibungstexte der einzelnen Argumententypen wurden nur leicht angepasst.
+The descriptive texts of the individual argument types have only been
+slightly adjusted.
+%
+% Die noch nicht unterstützen Argumentypen sind eingeklammert.
+The argument types that are not yet supported are bracketed.
 
 % /usr/local/texlive/texmf-dist/source/latex/l3packages/xparse/xparse.dtx
 \begin{itemize}
@@ -88,14 +136,7 @@
     but it has a user-definable recovery \meta{default} instead of
     |nil|.
   \item[v] Reads an argument \enquote{verbatim}, between the following
-    character and its next occurrence, in a way similar to the argument
-    of the \LaTeXe{} command \cs{verb}. Thus a \texttt{v}-type argument
-    is read between two identical characters, which cannot be any of |%|, |\|,
-    |#|, |{|, |}| or \verb*| |.
-    The verbatim argument can also be enclosed between braces, |{| and |}|.
-    A command with a verbatim
-    argument will produce an error when it appears within an argument of
-    another function.
+    character and its next occurrence.
   \item[(b)] Not implemented! Only suitable in the argument specification of an
     environment, it denotes the body of the environment, between
     |\begin|\marg{environment} and |\end|\marg{environment}.
@@ -152,6 +193,12 @@ The types which define optional arguments are:
 \subsection{lparse.tex}
 
 \inputminted[linenos=true]{latex}{lparse.tex}
+
+\clearpage
+
+\subsection{lparse.sty}
+
+\inputminted[linenos=true]{latex}{lparse.sty}
 
 \pagebreak
 \PrintIndex
