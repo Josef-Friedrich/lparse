@@ -120,7 +120,7 @@ local function parse_spec(spec)
 
     whitespace = Set(' \t\n\r'),
 
-    default = P('{') * CaptureSimple((1 - P('}')) ^ 1) * P('}') /
+    default = P('{') * CaptureSimple((1 - P('}')) ^ 0) * P('}') /
       set_default,
   })
 
