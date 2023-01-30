@@ -1,8 +1,15 @@
 # lparse
 
-Parse and scan macro arguments in `Lua` on `LuaTeX` using a `xparse`
-like argument specification and never get dirty with `#1`, `#2`, `#3`,
-`\luaescapestring`, `\luatexluaescapestring`, `\unexpanded` again.
+Parse and scan macro arguments in `Lua` with `LuaTeX` using a `xparse`
+like argument specification.
+
+The name lparse is derived from xparse. The x has been replaced by l
+because this package only works with LuaTeX. l stands for Lua. Just as
+with xparse, it is possible to use a special syntax consisting of single
+letters to express the arguments of a macro. However, lparse is able to
+read arguments regardless of the macro systemd used - whether LaTeX or
+ConTeXt or even plain TeX. Of course, LuaTeX must always be used as the
+engine.
 
 ## Current version
 
