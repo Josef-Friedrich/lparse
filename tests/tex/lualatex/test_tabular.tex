@@ -1,0 +1,18 @@
+\documentclass{article}
+\begin{document}
+
+\def\test{
+  \directlua{
+    local lparse = require('lparse')
+    print(lparse.scan('v'))
+  }
+}
+
+\begin{tabular}{ll}
+\test{test} & \test{test} \\
+\test{test} & \test{test} \\
+\test{test} & \test{test} \\
+\test{test} & \test{test} \\
+\end{tabular}
+
+\end{document}
