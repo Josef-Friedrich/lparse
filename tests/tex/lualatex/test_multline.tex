@@ -1,0 +1,21 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+
+\begin{document}
+
+\def\test{
+  \directlua{
+    local lparse = require('lparse')
+    local oarg, marg = lparse.scan('O{} v')
+    print(oarg, marg)
+    tex.print(marg)
+  }
+}
+
+\begin{multline*}
+p(x) = \test{590}x^4y^2 + \test{19}x^3y^3\\
+- 12x^2y^4 - \test{12}xy^5
+\end{multline*}
+
+\end{document}
