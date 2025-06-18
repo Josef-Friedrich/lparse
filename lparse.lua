@@ -21,7 +21,48 @@ if lpeg == nil then
 end
 
 ---
----@param spec string
+---@param spec string An argument specifier, for example `o m`
+---
+---Required arguments:
+---
+---* `m`: A standard mandatory argument, which can either be a single
+---  token alone or multiple tokens surrounded by curly braces `{}`.
+---  Regardless of the input, the argument will be passed to the
+---  internal code without the outer braces. This is the `lparse`
+---  type specifier for a normal TeX argument.
+---* `r`: Given as `r` `token1` `token2`, this denotes a
+---  required delimited argument, where the delimiters are
+---  `token1` and `token2`. If the opening delimiter
+---  `token1` is missing, `nil` will be
+---  returned after a suitable error.
+---* `R` Given as `R` `token1` `token2` `default`,
+---  this is a required delimited argument as for `r`,
+---  but it has a user-definable recovery `default` instead of
+---  `nil`.
+---* `v`: Reads an argument `verbatim`, between the following
+---   character and its next occurrence.
+---
+---Optional arguments:
+---
+---* `o`: A standard LaTeX optional argument, surrounded with square
+---  brackets, which will supply
+---  `nil` if not given (as described later).
+---* `d`: Given as `d` `token1` `token2`, an optional
+---  argument which is delimited by `token1` and `token1`.
+---  As with  `o`, if no
+---  value is given `nil` is returned.
+---* `O`: Given as `O{default}`, is like `o`, but
+---  returns `default` if no value is given.
+---* `D`: Given as `D` `token1` `token2` `{default}`,
+---  it is as for `d`, but returns `default` if no value is given.
+---  Internally, the `o`, `d` and `O` types are
+---  short-cuts to an appropriated-constructed `D` type argument.
+---* `s`: An optional star, which will result in a value
+---  `true` if a star is present and `false`
+---  otherwise (as described later).
+---* `t`: An optional `token`, which will result in a value
+---  `true` if `token` is present and `false`
+---  otherwise. Given as `t` `token`.
 ---@return Argument[]
 local function parse_spec(spec)
   local V = lpeg.V
@@ -211,6 +252,49 @@ local Parser = {}
 ---@private
 Parser.__index = Parser
 
+---
+---@param spec string An argument specifier, for example `o m`
+---
+---Required arguments:
+---
+---* `m`: A standard mandatory argument, which can either be a single
+---  token alone or multiple tokens surrounded by curly braces `{}`.
+---  Regardless of the input, the argument will be passed to the
+---  internal code without the outer braces. This is the `lparse`
+---  type specifier for a normal TeX argument.
+---* `r`: Given as `r` `token1` `token2`, this denotes a
+---  required delimited argument, where the delimiters are
+---  `token1` and `token2`. If the opening delimiter
+---  `token1` is missing, `nil` will be
+---  returned after a suitable error.
+---* `R` Given as `R` `token1` `token2` `default`,
+---  this is a required delimited argument as for `r`,
+---  but it has a user-definable recovery `default` instead of
+---  `nil`.
+---* `v`: Reads an argument `verbatim`, between the following
+---   character and its next occurrence.
+---
+---Optional arguments:
+---
+---* `o`: A standard LaTeX optional argument, surrounded with square
+---  brackets, which will supply
+---  `nil` if not given (as described later).
+---* `d`: Given as `d` `token1` `token2`, an optional
+---  argument which is delimited by `token1` and `token1`.
+---  As with  `o`, if no
+---  value is given `nil` is returned.
+---* `O`: Given as `O{default}`, is like `o`, but
+---  returns `default` if no value is given.
+---* `D`: Given as `D` `token1` `token2` `{default}`,
+---  it is as for `d`, but returns `default` if no value is given.
+---  Internally, the `o`, `d` and `O` types are
+---  short-cuts to an appropriated-constructed `D` type argument.
+---* `s`: An optional star, which will result in a value
+---  `true` if a star is present and `false`
+---  otherwise (as described later).
+---* `t`: An optional `token`, which will result in a value
+---  `true` if `token` is present and `false`
+---  otherwise. Given as `t` `token`.
 function Parser:new(spec)
   local parser = {}
   setmetatable(parser, Parser)
@@ -289,11 +373,100 @@ function Parser:debug()
   end
 end
 
+---
+---@param spec string An argument specifier, for example `o m`
+---
+---Required arguments:
+---
+---* `m`: A standard mandatory argument, which can either be a single
+---  token alone or multiple tokens surrounded by curly braces `{}`.
+---  Regardless of the input, the argument will be passed to the
+---  internal code without the outer braces. This is the `lparse`
+---  type specifier for a normal TeX argument.
+---* `r`: Given as `r` `token1` `token2`, this denotes a
+---  required delimited argument, where the delimiters are
+---  `token1` and `token2`. If the opening delimiter
+---  `token1` is missing, `nil` will be
+---  returned after a suitable error.
+---* `R` Given as `R` `token1` `token2` `default`,
+---  this is a required delimited argument as for `r`,
+---  but it has a user-definable recovery `default` instead of
+---  `nil`.
+---* `v`: Reads an argument `verbatim`, between the following
+---   character and its next occurrence.
+---
+---Optional arguments:
+---
+---* `o`: A standard LaTeX optional argument, surrounded with square
+---  brackets, which will supply
+---  `nil` if not given (as described later).
+---* `d`: Given as `d` `token1` `token2`, an optional
+---  argument which is delimited by `token1` and `token1`.
+---  As with  `o`, if no
+---  value is given `nil` is returned.
+---* `O`: Given as `O{default}`, is like `o`, but
+---  returns `default` if no value is given.
+---* `D`: Given as `D` `token1` `token2` `{default}`,
+---  it is as for `d`, but returns `default` if no value is given.
+---  Internally, the `o`, `d` and `O` types are
+---  short-cuts to an appropriated-constructed `D` type argument.
+---* `s`: An optional star, which will result in a value
+---  `true` if a star is present and `false`
+---  otherwise (as described later).
+---* `t`: An optional `token`, which will result in a value
+---  `true` if `token` is present and `false`
+---  otherwise. Given as `t` `token`.
+---
 ---@return Parser
 local function create_parser(spec)
   return Parser:new(spec)
 end
 
+---
+---@param spec string An argument specifier, for example `o m`
+---
+---Required arguments:
+---
+---* `m`: A standard mandatory argument, which can either be a single
+---  token alone or multiple tokens surrounded by curly braces `{}`.
+---  Regardless of the input, the argument will be passed to the
+---  internal code without the outer braces. This is the `lparse`
+---  type specifier for a normal TeX argument.
+---* `r`: Given as `r` `token1` `token2`, this denotes a
+---  required delimited argument, where the delimiters are
+---  `token1` and `token2`. If the opening delimiter
+---  `token1` is missing, `nil` will be
+---  returned after a suitable error.
+---* `R` Given as `R` `token1` `token2` `default`,
+---  this is a required delimited argument as for `r`,
+---  but it has a user-definable recovery `default` instead of
+---  `nil`.
+---* `v`: Reads an argument `verbatim`, between the following
+---   character and its next occurrence.
+---
+---Optional arguments:
+---
+---* `o`: A standard LaTeX optional argument, surrounded with square
+---  brackets, which will supply
+---  `nil` if not given (as described later).
+---* `d`: Given as `d` `token1` `token2`, an optional
+---  argument which is delimited by `token1` and `token1`.
+---  As with  `o`, if no
+---  value is given `nil` is returned.
+---* `O`: Given as `O{default}`, is like `o`, but
+---  returns `default` if no value is given.
+---* `D`: Given as `D` `token1` `token2` `{default}`,
+---  it is as for `d`, but returns `default` if no value is given.
+---  Internally, the `o`, `d` and `O` types are
+---  short-cuts to an appropriated-constructed `D` type argument.
+---* `s`: An optional star, which will result in a value
+---  `true` if a star is present and `false`
+---  otherwise (as described later).
+---* `t`: An optional `token`, which will result in a value
+---  `true` if `token` is present and `false`
+---  otherwise. Given as `t` `token`.
+---
+---@return boolean|string|nil ...
 local function scan(spec)
   local parser = create_parser(spec)
   return parser:export()
