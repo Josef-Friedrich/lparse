@@ -1,0 +1,42 @@
+\documentclass{article}
+
+\begin{document}
+\def\test{
+  \directlua{
+    local lparse = require('lparse')
+    local oarg, marg = lparse.scan('O{} v')
+    print(oarg, marg)
+  }
+}
+
+
+\noindent
+\begin{tabular}{p{5cm}|l|c|r}
+paragraph & left & center & right \\
+
+\hline
+
+\test{Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+minim veniam, quis nostrud exercitation ullamco laboris nisi ut}
+&
+\test{left}
+&
+\test{center}
+&
+\test{right}
+\\
+
+Lorem ipsum dolor \test{sit amet, consectetur} adipisicing elit, sed do
+eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+minim veniam, quis nostrud exercitation \test{ullamco laboris nisi ut}
+&
+Sit \test{left} wit
+&
+Sit \test{center} wit
+&
+Sit \test{right} wit
+\\
+\end{tabular}
+
+\end{document}
