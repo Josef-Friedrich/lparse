@@ -4,15 +4,14 @@
 \def\test{
   \directlua{
     local lparse = require('lparse')
-    print(lparse.scan('v'))
+    local oarg, marg = lparse.scan('O{} v')
+    print(oarg, marg)
+    tex.print(marg)
   }
 }
 
 \begin{tabular}{ll}
-\test{test} & \test{test} \\
-\test{test} & \test{test} \\
-\test{test} & \test{test} \\
-\test{test} & \test{test} \\
+\test[oarg]{marg} & \test{marg} \\
 \end{tabular}
 
 \end{document}
