@@ -170,6 +170,22 @@ local function parse_spec(spec)
 end
 
 ---
+---@param t Token
+local function debug_token(t)
+  print(t)
+  print('command', t.command)
+  print('cmdname', t.cmdname)
+  print('csname', t.csname)
+  print('id', t.id)
+  print('tok', t.tok)
+  print('active', t.active)
+  print('expandable', t.expandable)
+  print('protected', t.protected)
+  print('mode', t.mode)
+  print('index', t.index)
+end
+
+---
 ---Scan for an optional argument.
 ---
 ---@param init_delim? string # The character that marks the beginning of an optional argument (by default `[`).
