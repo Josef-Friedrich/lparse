@@ -94,7 +94,7 @@ systemd used - whether \LaTeX{} or Con\TeX{}t or even plain \TeX.
 % Als Engine musst natürlich immer LuaTeX verwendet werden.
 Of course, Lua\TeX{} must always be used as the engine.
 
-\subsection{Similar projects}
+\subsection*{Similar projects}
 
 % Für ConTeXt gibt es einen ähnlichen Argumenten scanner.
 For Con\TeX{}t there is a similar argument scanner (see Con\TeX{}t Lua
@@ -199,22 +199,22 @@ The types which define optional arguments are:
     if values are not given: \texttt{E}\marg{tokens}\marg{defaults}.
 \end{itemize}
 
-\section{Function: \texttt{scan}}
+\subsection{Function: \texttt{scan}}
 
 \InputTex{luatex/function-scan.tex}
 
-\section{Class: \texttt{Scanner}}
+\subsection{Class: \texttt{Scanner}}
 
-\subsection{Method: \texttt{Scanner:scan()}}
+\subsubsection{Method: \texttt{Scanner:scan()}}
 
-\subsection{Method: \texttt{Scanner:export()}}
+\subsubsection{Method: \texttt{Scanner:export()}}
 
-\subsection{Method: \texttt{Scanner:assert()}}
+\subsubsection{Method: \texttt{Scanner:assert()}}
 
-\subsection{Method: \texttt{Scanner:debug()}}
+\subsubsection{Method: \texttt{Scanner:debug()}}
 
 % Hilfsfunktionen
-\section{Auxiliary functions}
+\subsection{Auxiliary functions}
 
 %
 % Einige Hilfsfunktionen werden in der Tabelle utils exportiert.
@@ -231,7 +231,7 @@ local scan_oarg = lparse.utils.scan_oarg
 %
 %%
 
-\subsubsection{Function: \texttt{utils.scan_oarg(init_delim, end_delim)}}
+\subsubsection*{Function: \texttt{utils.scan_oarg(init_delim, end_delim)}}
 
 % Plain \TeX{} kennt keine optionalen Argumente (oarg).
 Plain \TeX{} does not know optional arguments \oarg{oarg}.
