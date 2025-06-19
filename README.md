@@ -3,21 +3,21 @@
 Parse and scan macro arguments in `Lua` with `LuaTeX` using a `xparse`
 like argument specification.
 
-The name lparse is derived from xparse. The x has been replaced by l
-because this package only works with LuaTeX. l stands for Lua. Just as
-with xparse, it is possible to use a special syntax consisting of single
-letters to express the arguments of a macro. However, lparse is able to
-read arguments regardless of the macro systemd used - whether LaTeX or
-ConTeXt or even plain TeX. Of course, LuaTeX must always be used as the
-engine.
+The name `lparse` is derived from `xparse`. The `x` has been replaced by
+`l` because this package only works with `LuaTeX`. `l` stands for *Lua*.
+Just as with `xparse`, it is possible to use a special syntax consisting
+of single letters to express the arguments of a macro. However, `lparse`
+is able to read arguments regardless of the macro systemd used - whether
+`LaTeX` or `ConTeXt` or even plain `TeX`. Of course, `LuaTeX` must
+always be used as the engine.
 
 ## Current version
 
-2023/01/29 v0.1.0
+2025/06/19 v0.2.0
 
 ## License
 
-Copyright (C) 2023 by Josef Friedrich <josef@friedrich.rocks>
+Copyright (C) 2023-2025 by Josef Friedrich <josef@friedrich.rocks>
 ------------------------------------------------------------------------
 This work may be distributed and/or modified under the conditions of
 the LaTeX Project Public License, either version 1.3c of this license
@@ -32,3 +32,31 @@ version 2008/05/04 or later.
 ## Maintainer
 
 Josef Friedrich <josef@friedrich.rocks>
+
+## Packaging
+
+### CTAN
+
+The `lparse` package has been included in the Comprehensive TeX Archive
+Network (CTAN) since January 2023.
+
+* [Package page](https://www.ctan.org/pkg/lparse)
+* [Sources](https://www.ctan.org/tex-archive/macros/luatex/generic/lparse)
+
+### Distributions
+
+* TeX Live:
+  * run files:
+    * [lparse.lua](https://tug.org/svn/texlive/trunk/Master/texmf-dist/tex/luatex/lparse/lparse.tex) texmf-dist/tex/luatex/lparse/lparse.tex
+    * [lparse.tex](https://tug.org/svn/texlive/trunk/Master/texmf-dist/tex/luatex/lparse/lparse.tex) texmf-dist/tex/luatex/lparse/lparse.tex
+    * [lparse.sty](https://tug.org/svn/texlive/trunk/Master/texmf-dist/tex/luatex/lparse/lparse.sty) texmf-dist/tex/luatex/lparse/lparse.sty
+  * doc files:
+    * [lparse-doc.tex](https://tug.org/svn/texlive/trunk/Master/texmf-dist/doc/luatex/lparse/lparse.pdf) texmf-dist/doc/luatex/lparse/lparse-doc.tex
+    * [lparse-doc.pdf](https://tug.org/svn/texlive/trunk/Master/texmf-dist/doc/luatex/lparse/lparse.pdf) texmf-dist/doc/luatex/lparse/lparse-doc.pdf
+    * [README.md](https://tug.org/svn/texlive/trunk/Master/texmf-dist/doc/luatex/lparse/README.md) texmf-dist/doc/luatex/lparse/README.md
+* [MiKTeX](https://miktex.org/packages/lparse)
+
+### Repository
+
+The [Git repository](https://github.com/Josef-Friedrich/lparse) in which
+the development takes place is hosted on [GitHub](https://github.com).

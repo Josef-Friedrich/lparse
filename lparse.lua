@@ -1,5 +1,5 @@
 -- lparse.lua
--- Copyright 2023 Josef Friedrich
+-- Copyright 2023-2025 Josef Friedrich
 --
 -- This work may be distributed and/or modified under the
 -- conditions of the LaTeX Project Public License, either version 1.3c
