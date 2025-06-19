@@ -1,9 +1,9 @@
 \directlua{
   lparse = require('lparse')
-  Parser = lparse.Parser
+  Scanner = lparse.Scanner
 }
 
-\def\test#1#2{\directlua{Parser('#1'):assert(#2)}}
+\def\test#1#2{\directlua{Scanner('#1'):assert(#2)}}
 
 % m
 

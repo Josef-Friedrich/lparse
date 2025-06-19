@@ -1,14 +1,14 @@
 local lparse = require('lparse')
-local Parser = lparse.Parser
+local Scanner = lparse.Scanner
 
-Parser = lparse.Parser
+Scanner = lparse.Scanner
 
 return {
   assert_mandatory = function()
-    Parser('m'):assert('{\\fam \\bffam \\tenbf bold}')
+    Scanner('m'):assert('{\\fam \\bffam \\tenbf bold}')
   end,
 
   assert_verbatim = function()
-    Parser('v'):assert('{\\bf bold}')
+    Scanner('v'):assert('{\\bf bold}')
   end,
 }

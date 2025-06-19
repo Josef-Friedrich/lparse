@@ -357,13 +357,13 @@ end
 ---@field token? string The optional token for the argument type `t`.
 
 ---A parser that parses the argument specification (list of letters).
----@class Parser
+---@class Scanner
 ---@field spec string An argument specifier
 ---@field args Argument[]
 ---@field result any[]
-local Parser = {}
+local Scanner = {}
 ---@private
-Parser.__index = Parser
+Scanner.__index = Scanner
 
 ---
 ---@param spec string An argument specifier, for example `o m`
@@ -408,9 +408,9 @@ Parser.__index = Parser
 ---* `t`: An optional `token`, which will result in a value
 ---  `true` if `token` is present and `false`
 ---  otherwise. Given as `t` `token`.
-function Parser:new(spec)
+function Scanner:new(spec)
   local parser = {}
-  setmetatable(parser, Parser)
+  setmetatable(parser, Scanner)
   parser.spec = spec
   parser.args = parse_spec(spec)
   parser.result = parser:scan()
@@ -421,7 +421,7 @@ end
 ---Scan for arguments in the token input stream.
 ---
 ---@return any[]
-function Parser:scan()
+function Scanner:scan()
   local result = {}
   local index = 1
   for _, arg in pairs(self.args) do
@@ -462,11 +462,19 @@ function Parser:scan()
 end
 
 ---@private
-function Parser:set_result(...)
+function Scanner:set_result(...)
   self.result = { ... }
 end
 
-function Parser:assert(...)
+---
+---@return string|boolean|nil ...
+function Scanner:export()
+  -- #self.arg: to get all elements of the result table, also elements
+  -- with nil values.
+  return table.unpack(self.result, 1, #self.args)
+end
+
+function Scanner:assert(...)
   local arguments = { ... }
   for index, arg in ipairs(arguments) do
     assert(self.result[index] == arg, string.format(
@@ -475,15 +483,7 @@ function Parser:assert(...)
   end
 end
 
----
----@return string|boolean|nil ...
-function Parser:export()
-  -- #self.arg: to get all elements of the result table, also elements
-  -- with nil values.
-  return table.unpack(self.result, 1, #self.args)
-end
-
-function Parser:debug()
+function Scanner:debug()
   for index = 1, #self.args do
     print(index, self.result[index])
   end
@@ -533,9 +533,9 @@ end
 ---  `true` if `token` is present and `false`
 ---  otherwise. Given as `t` `token`.
 ---
----@return Parser
-local function create_parser(spec)
-  return Parser:new(spec)
+---@return Scanner
+local function create_scanner(spec)
+  return Scanner:new(spec)
 end
 
 ---
@@ -586,12 +586,12 @@ end
 ---
 ---@return boolean|string|nil ...
 local function scan(spec)
-  local parser = create_parser(spec)
-  return parser:export()
+  local scanner = create_scanner(spec)
+  return scanner:export()
 end
 
 return {
-  Parser = create_parser,
   scan = scan,
+  Scanner = create_scanner,
   utils = { parse_spec = parse_spec, scan_oarg = scan_oarg },
 }
