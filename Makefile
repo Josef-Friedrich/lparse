@@ -15,12 +15,12 @@ doc: doc_pdf
 	xdg-open $(jobname)-doc.pdf > /dev/null 2>&1
 
 doc_pdf:
-	lualatex --shell-escape lparse-doc.tex
-	makeindex -s gglo.ist -o lparse-doc.gls lparse-doc.glo
-	makeindex -s gind.ist -o lparse-doc.ind lparse-doc.idx
-	lualatex --shell-escape lparse-doc.tex
+	lualatex --shell-escape $(jobname)-doc.tex
+	makeindex -s gglo.ist -o $(jobname)-doc.gls $(jobname)-doc.glo
+	makeindex -s gind.ist -o $(jobname)-doc.ind $(jobname)-doc.idx
+	lualatex --shell-escape $(jobname)-doc.tex
 	mkdir -p $(texmf)/doc
-	cp lparse-doc.pdf $(texmf)/doc/$(jobname).pdf
+	cp $(jobname)-doc.pdf $(texmf)/doc/$(jobname).pdf
 
 ctan: doc_pdf
 	rm -rf $(jobname).tar.gz
@@ -30,8 +30,8 @@ ctan: doc_pdf
 	cp -f $(jobname).lua $(jobname)/
 	cp -f $(jobname).sty $(jobname)/
 	cp -f $(jobname).tex $(jobname)/
-	cp -f lparse-doc.pdf $(jobname)/$(jobname).pdf
-	cp -f lparse-doc.tex $(jobname)/
+	cp -f $(jobname)-doc.pdf $(jobname)/
+	cp -f $(jobname)-doc.tex $(jobname)/
 	tar cvfz $(jobname).tar.gz $(jobname)
 	rm -rf $(jobname)
 
