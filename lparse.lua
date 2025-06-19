@@ -63,6 +63,7 @@ end
 ---* `t`: An optional `token`, which will result in a value
 ---  `true` if `token` is present and `false`
 ---  otherwise. Given as `t` `token`.
+---
 ---@return Argument[]
 local function parse_spec(spec)
   local V = lpeg.V
@@ -250,18 +251,114 @@ local function scan_oarg(init_delim, end_delim)
   end
 end
 
+---
+---Represents an argument of a command.
+---
+---The basic form of the argument specifier is a list of letters, where
+---each letter defines a `Argument`.
+---
+---## `m`:
+---
+---```lua
+---{ argument_type = 'm' }
+---```
+---
+---## `r`:
+---
+---```lua
+---{ argument_type = 'r', end_delim = '>', init_delim = '<' }
+---```
+---
+---## `R`:
+---
+---(`R<>{default}`)
+---
+---```lua
+---{
+---  argument_type = 'R',
+---  end_delim = '>',
+---  init_delim = '<',
+---  default = 'default',
+---}
+---```
+---
+---## `v`:
+---
+---```lua
+---{
+---  argument_type = 'v',
+---  verbatim = true,
+---}
+---```
+---
+---## `o`:
+---
+---```lua
+---{ argument_type = 'o', optional = true }
+---```
+---
+---## `d`:
+---
+---(`d<>`)
+---
+---```lua
+---{
+---  argument_type = 'd',
+---  optional = true,
+---  end_delim = '>',
+---  init_delim = '<',
+---}
+---```
+---
+---## `O`:
+---
+---(`O{default}`)
+---
+---```lua
+---{ argument_type = 'O', optional = true, default = 'default' }
+---```
+---
+---## `D`:
+---
+---(`D<>{default}`)
+---
+---```lua
+---{
+---  argument_type = 'D',
+---  optional = true,
+---  default = ' default ',
+---  end_delim = '>',
+---  init_delim = '<',
+---}
+---```
+---
+---
+---## `s`:
+---
+---```lua
+---{ argument_type = 's', star = true }
+---```
+---
+---
+---## `t`:
+---
+---```lua
+---{ argument_type = 't', token = '+' }
+---```
+---
 ---@class Argument
----@field argument_type? string
----@field optional? boolean
----@field init_delim? string
----@field end_delim? string
----@field dest? string
----@field star? boolean
----@field default? string
----@field verbatim? boolean
----@field token? string
+---@field argument_type? 'm' | 'r' | 'R' | 'v' | 'o' | 'd' | 'O' | 'D' | 's' | 't' A single letter representing the argument type in the list of letters.
+---@field optional? boolean Indicates whether the argument is optional.
+---@field init_delim? string The character that marks the beginning of an argument.
+---@field end_delim? string The character that marks the end of an argument.
+---@field star? boolean `true` if it is a star argument type (`s`).
+---@field default? string The default value if no value is given.
+---@field verbatim? boolean `true` if it is a verbatim argument type (`v`).
+---@field token? string The optional token for the argument type `t`.
 
+---A parser that parses the argument specification (list of letters).
 ---@class Parser
+---@field spec string An argument specifier
 ---@field args Argument[]
 ---@field result any[]
 local Parser = {}
@@ -316,12 +413,15 @@ function Parser:new(spec)
   setmetatable(parser, Parser)
   parser.spec = spec
   parser.args = parse_spec(spec)
-  parser.result = parser:parse(parser.args)
+  parser.result = parser:scan()
   return parser
 end
 
+---
+---Scan for arguments in the token input stream.
+---
 ---@return any[]
-function Parser:parse()
+function Parser:scan()
   local result = {}
   local index = 1
   for _, arg in pairs(self.args) do
@@ -438,6 +538,8 @@ local function create_parser(spec)
   return Parser:new(spec)
 end
 
+---
+---Scan for arguments in the token input stream.
 ---
 ---@param spec string An argument specifier, for example `o m`
 ---
