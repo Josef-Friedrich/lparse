@@ -12,6 +12,7 @@ install:
 	cp -f $(jobname).tex $(installdir)
 
 doc: doc_pdf
+	xdg-open $(jobname)-doc.pdf > /dev/null 2>&1
 
 doc_pdf:
 	lualatex --shell-escape lparse-doc.tex

@@ -9,6 +9,9 @@
 \usepackage{multicol}
 \usepackage{luacode}
 \usepackage{syntax}
+\usepackage{color}
+
+\definecolor{gray}{gray}{0.75}
 
 \usemintedstyle{friendly}
 \BeforeBeginEnvironment{minted}{\begin{mdframed}}
@@ -21,9 +24,16 @@
 \def\lua#1{\mintinline{lua}|#1|}
 \def\latex#1{\mintinline{latex}|#1|}
 
+% File names must not contain underscores
 \NewDocumentCommand { \InputLatex } { O{} m } {
   \begin{mdframed}
   \inputminted[linenos=false,#1]{latex}{examples/#2}
+  \end{mdframed}
+}
+
+\NewDocumentCommand { \InputTex } { O{} m } {
+  \begin{mdframed}
+  \inputminted[linenos=false,#1]{tex}{examples/#2}
   \end{mdframed}
 }
 
@@ -48,7 +58,7 @@
 
 \maketitle
 
-\InputLatex[firstline=5,lastline=14]{title-page.tex}
+\InputLatex[firstline=5,lastline=14]{lualatex/title-page.tex}
 
 \newpage
 
@@ -102,11 +112,13 @@ Con\TeX{}t scanner apparently uses the token library of the LuaTeX
 successor project luameta\TeX:
 \href{https://github.com/contextgarden/context/blob/main/source/luametatex/source/lua/lmttokenlib.c}{lmttokenlib.c}
 
-\section{Description of the argument specification}
+\section{The Lua API of \texttt{lparse}}
+
+\subsection{Description of the argument specification}
 %
 % Folgende Listen, die die Argumenttypen beschreiben, entstammen den
 % Handbücher usrguide bzw. xparse.
-The following lists, which describe the individual argument types, are
+The following lists describing the argument types are
 taken from the manuals
 \href{http://mirrors.ctan.org/macros/latex/base/usrguide.pdf}{usrguide}
 and
@@ -126,42 +138,57 @@ The argument types that are not yet supported are bracketed.
     Regardless of the input, the argument will be passed to the
     internal code without the outer braces. This is the \pkg{lparse}
     type specifier for a normal \TeX{} argument.
+
   \item[r] Given as \texttt{r}\meta{token1}\meta{token2}, this denotes a
     \enquote{required} delimited argument, where the delimiters are
     \meta{token1} and \meta{token2}. If the opening delimiter
     \meta{token1} is missing, |nil| will be
     returned after a suitable error.
+
   \item[R] Given as \texttt{R}\meta{token1}\meta{token2}\marg{default},
     this is a \enquote{required} delimited argument as for~\texttt{r},
     but it has a user-definable recovery \meta{default} instead of
     |nil|.
+
   \item[v] Reads an argument \enquote{verbatim}, between the following
     character and its next occurrence.
+
+  \color{gray}
+
   \item[(b)] Not implemented! Only suitable in the argument specification of an
     environment, it denotes the body of the environment, between
     |\begin|\marg{environment} and |\end|\marg{environment}.
+
 \end{itemize}
 The types which define optional arguments are:
 \begin{itemize}
   \item[o] A standard \LaTeX{} optional argument, surrounded with square
     brackets, which will supply
     |nil| if not given (as described later).
+
   \item[d] Given as \texttt{d}\meta{token1}\meta{token2}, an optional
     argument which is delimited by \meta{token1} and \meta{token2}.
     As with \texttt{o}, if no
     value is given |nil| is returned.
+
   \item[O] Given as \texttt{O}\marg{default}, is like \texttt{o}, but
     returns \meta{default} if no value is given.
+
   \item[D] Given as \texttt{D}\meta{token1}\meta{token2}\marg{default},
     it is as for \texttt{d}, but returns \meta{default} if no value is given.
     Internally, the \texttt{o}, \texttt{d} and \texttt{O} types are
     short-cuts to an appropriated-constructed \texttt{D} type argument.
+
   \item[s] An optional star, which will result in a value
     |true| if a star is present and |false|
     otherwise (as described later).
+
   \item[t] An optional \meta{token}, which will result in a value
     |true| if \meta{token} is present and |false|
     otherwise. Given as \texttt{t}\meta{token}.
+
+  \color{gray}
+
   \item[(e)] Not implemented! Given as \texttt{e}\marg{tokens}, a set of optional
     \emph{embellishments}, each of which requires a \emph{value}.
     If an embellishment is not present, |-NoValue-| is returned.  Each
@@ -172,19 +199,36 @@ The types which define optional arguments are:
     if values are not given: \texttt{E}\marg{tokens}\marg{defaults}.
 \end{itemize}
 
+\section{Function: \texttt{scan}}
+
+\InputTex{luatex/function-scan.tex}
+
+% Hilfsfunktionen
+\section{Auxiliary functions}
+
+%
+% Einige Hilfsfunktionen werden in der Tabelle utils exportiert.
+Some auxiliary functions are exported in the \lua{utils} table:
+
+\begin{minted}{lua}
+local lparse = require('lparse')
+
+local parse_spec = lparse.utils.parse_spec
+local scan_oarg = lparse.utils.scan_oarg
+\end{minted}
+
 %%
 %
 %%
 
-\subsubsection{Function “\texttt{scan_delimited(init_delim?, end_delim?): string}”}
+\subsubsection{Function: \texttt{utils.scan_oarg(init_delim, end_delim)}}
 
 % Plain \TeX{} kennt keine optionalen Argumente (oarg).
-Plain \TeX{} does not know optional arguments (oarg).
+Plain \TeX{} does not know optional arguments \oarg{oarg}.
 %
 % Die Funktion ermöglicht es nicht nur in \LaTeX{}, sondern auch in
 % Plain \TeX{} nach optionalen Argumenten zu suchen.
-The function \\ \lua{scan_delimited(init_delim,
-end_delim)} allows to search for optional arguments not only
+The function \lua{scan_oarg} allows to search for optional arguments not only
 in \LaTeX{} but also in Plain \TeX.
 %
 % Die Funktion basiert auf der Token-Bibliothek.
@@ -198,10 +242,10 @@ be omitted.
 % Dann werden eckige Klammern als Begrenzungszeichen angenommen.
 Then square brackets are assumed to be delimiters.
 %
-% Dieser Lua-Code \lua{utils.scan_oarg('(', ')')} sucht beispielsweise
-% nach an einem optionalen Argument in runden Klammern.
-For example, this Lua code \lua{scan_delimited('(', ')')} searches for
-an optional argument in round brackets.
+% \lua{utils.scan_oarg('(', ')')} sucht beispielsweise nach an einem
+% optionalen Argument in runden Klammern.
+\lua{utils.scan_oarg(‘(’, ‘)’)} searches for an optional argument in
+round brackets, for example.
 %
 % Die Funktion gibt die Zeichenkette zwischen den Begrenzungszeichen
 % zurück, oder nil wenn Begrenzungszeichen gefunden werden konnten.
@@ -213,9 +257,10 @@ The delimiters themselves are not included in the result.
 %
 % Nach dem \latex{\directlua{}} darf das Makro, indem
 % \lua{utils.scan_oarg} eingesetzt wird, zu keinen Zeichen expandieren.
-After the \latex{\directlua{}}, the macro using \lua{scan_delimited}
+After the \latex{\directlua{}}, the macro using \lua{scan_oarg}
 must not expand to any characters.
 
+\InputTex{luatex/function-utils.scan-oarg.tex}
 
 \clearpage
 

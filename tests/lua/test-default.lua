@@ -2,11 +2,11 @@ require('busted.runner')()
 
 local lparse = require('lparse')
 
-local parse = lparse.parse_spec
+local parse_spec = lparse.utils.parse_spec
 
-describe('Function parse_spec', function()
+describe('Function: parse_spec', function()
   it('Constructor', function()
-    assert.are.same(parse(' s\no \t m '), {
+    assert.are.same(parse_spec(' s\no \t m '), {
       { argument_type = 's', star = true },
       { argument_type = 'o', optional = true },
       { argument_type = 'm' },
@@ -14,17 +14,17 @@ describe('Function parse_spec', function()
   end)
 
   it('m', function()
-    assert.are.same(parse('m'), { { argument_type = 'm' } })
+    assert.are.same(parse_spec('m'), { { argument_type = 'm' } })
   end)
 
   it('r', function()
-    assert.are.same(parse('r<>'), {
+    assert.are.same(parse_spec('r<>'), {
       { argument_type = 'r', end_delim = '>', init_delim = '<' },
     })
   end)
 
   it('R', function()
-    assert.are.same(parse('R<>{default}'), {
+    assert.are.same(parse_spec('R<>{default}'), {
       {
         argument_type = 'R',
         end_delim = '>',
@@ -35,7 +35,7 @@ describe('Function parse_spec', function()
   end)
 
   it('v', function()
-    assert.are.same(parse('v'), {
+    assert.are.same(parse_spec('v'), {
       {
         argument_type = 'v',
         verbatim = true,
@@ -44,12 +44,12 @@ describe('Function parse_spec', function()
   end)
 
   it('o', function()
-    assert.are.same(parse('o'),
+    assert.are.same(parse_spec('o'),
       { { argument_type = 'o', optional = true } })
   end)
 
   it('d', function()
-    assert.are.same(parse('d<>'), {
+    assert.are.same(parse_spec('d<>'), {
       {
         argument_type = 'd',
         optional = true,
@@ -60,13 +60,13 @@ describe('Function parse_spec', function()
   end)
 
   it('O', function()
-    assert.are.same(parse('O{default}'), {
+    assert.are.same(parse_spec('O{default}'), {
       { argument_type = 'O', optional = true, default = 'default' },
     })
   end)
 
   it('D', function()
-    assert.are.same(parse('D<>{ default }'), {
+    assert.are.same(parse_spec('D<>{ default }'), {
       {
         argument_type = 'D',
         optional = true,
@@ -79,12 +79,12 @@ describe('Function parse_spec', function()
 
   it('s', function()
     assert.are
-      .same(parse('s'), { { argument_type = 's', star = true } })
+      .same(parse_spec('s'), { { argument_type = 's', star = true } })
   end)
 
   it('t', function()
     assert.are
-      .same(parse('t+'), { { argument_type = 't', token = '+' } })
+      .same(parse_spec('t+'), { { argument_type = 't', token = '+' } })
   end)
 
 end)

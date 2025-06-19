@@ -186,13 +186,13 @@ local function debug_token(t)
 end
 
 ---
----Scan for an optional argument.
+---Scan for an optional delimited argument.
 ---
 ---@param init_delim? string # The character that marks the beginning of an optional argument (by default `[`).
 ---@param end_delim? string # The character that marks the end of an optional argument (by default `]`).
 ---
 ---@return string|nil # The string that was enclosed by the delimiters. The delimiters themselves are not returned.
-local function scan_delimited(init_delim, end_delim)
+local function scan_oarg(init_delim, end_delim)
   if init_delim == nil then
     init_delim = '['
   end
@@ -333,14 +333,14 @@ function Parser:parse()
       result[index] = token.scan_keyword(arg.token)
     elseif arg.optional then
       -- o d O D
-      local oarg = scan_delimited(arg.init_delim, arg.end_delim)
+      local oarg = scan_oarg(arg.init_delim, arg.end_delim)
       if arg.default and oarg == nil then
         oarg = arg.default
       end
       result[index] = oarg
     elseif arg.init_delim and arg.end_delim then
       -- r R
-      local oarg = scan_delimited(arg.init_delim, arg.end_delim)
+      local oarg = scan_oarg(arg.init_delim, arg.end_delim)
       if arg.default and oarg == nil then
         oarg = arg.default
       end
@@ -491,7 +491,5 @@ end
 return {
   Parser = create_parser,
   scan = scan,
-  parse_spec = parse_spec,
-
-  utils = { scan_delimited = scan_delimited },
+  utils = { parse_spec = parse_spec, scan_oarg = scan_oarg },
 }

@@ -1,0 +1,11 @@
+\input lparse.tex
+
+\def\test{\par\directlua{
+  local oarg = lparse.utils.scan_oarg()
+  tex.print('oarg: ' .. tostring(oarg))
+}}
+
+\test[oarg] % oarg: oarg
+\test % oarg: nil
+
+\bye
