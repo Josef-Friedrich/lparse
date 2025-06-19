@@ -488,4 +488,10 @@ local function scan(spec)
   return parser:export()
 end
 
-return { Parser = create_parser, scan = scan, parse_spec = parse_spec }
+return {
+  Parser = create_parser,
+  scan = scan,
+  parse_spec = parse_spec,
+
+  utils = { scan_delimited = scan_delimited },
+}
