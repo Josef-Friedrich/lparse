@@ -47,13 +47,13 @@ Network (CTAN) since January 2023.
 
 * TeX Live:
   * run files:
-    * [lparse.lua](https://tug.org/svn/texlive/trunk/Master/texmf-dist/tex/luatex/lparse/lparse.tex) texmf-dist/tex/luatex/lparse/lparse.tex
-    * [lparse.tex](https://tug.org/svn/texlive/trunk/Master/texmf-dist/tex/luatex/lparse/lparse.tex) texmf-dist/tex/luatex/lparse/lparse.tex
-    * [lparse.sty](https://tug.org/svn/texlive/trunk/Master/texmf-dist/tex/luatex/lparse/lparse.sty) texmf-dist/tex/luatex/lparse/lparse.sty
+    * [tex/luatex/lparse/lparse.lua](https://tug.org/svn/texlive/trunk/Master/texmf-dist/tex/luatex/lparse/lparse.lua)
+    * [tex/luatex/lparse/lparse.tex](https://tug.org/svn/texlive/trunk/Master/texmf-dist/tex/luatex/lparse/lparse.tex)
+    * [tex/luatex/lparse/lparse.sty](https://tug.org/svn/texlive/trunk/Master/texmf-dist/tex/luatex/lparse/lparse.sty)
   * doc files:
-    * [lparse-doc.tex](https://tug.org/svn/texlive/trunk/Master/texmf-dist/doc/luatex/lparse/lparse.pdf) texmf-dist/doc/luatex/lparse/lparse-doc.tex
-    * [lparse-doc.pdf](https://tug.org/svn/texlive/trunk/Master/texmf-dist/doc/luatex/lparse/lparse.pdf) texmf-dist/doc/luatex/lparse/lparse-doc.pdf
-    * [README.md](https://tug.org/svn/texlive/trunk/Master/texmf-dist/doc/luatex/lparse/README.md) texmf-dist/doc/luatex/lparse/README.md
+    * [doc/luatex/lparse/lparse-doc.tex](https://tug.org/svn/texlive/trunk/Master/texmf-dist/doc/luatex/lparse/lparse-doc.tex)
+    * [doc/luatex/lparse/lparse-doc.pdf](https://tug.org/svn/texlive/trunk/Master/texmf-dist/doc/luatex/lparse/lparse-doc.pdf)
+    * [doc/luatex/lparse/README.md](https://tug.org/svn/texlive/trunk/Master/texmf-dist/doc/luatex/lparse/README.md)
 * [MiKTeX](https://miktex.org/packages/lparse)
 
 ### Repository
