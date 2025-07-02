@@ -1,0 +1,5 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LuaLS/vscode-lua/master/setting/schema.json",
+  "workspace.library": ["/home/jf/Downloads/lpeg"],
+  "runtime.version": "Lua 5.3"
+}

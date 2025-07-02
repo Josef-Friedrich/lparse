@@ -593,8 +593,43 @@ local function scan(spec)
   return scanner:export()
 end
 
+---@class RegisterCsnameOptions
+---@field global? boolean
+---@field projected? boolean
+
+---
+---Register a Lua function under a control sequence name `csname`,
+---
+---@param csname string
+---@param fn function
+---@param opts? RegisterCsnameOptions
+local function register_csname(csname, fn, opts)
+  if opts == nil then
+    opts = {}
+  end
+  local fns = lua.get_functions_table()
+  local index = 1
+  while fns[index] do
+    index = index + 1
+  end
+  fns[index] = fn
+  if opts.global and opts.projected then
+    token.set_lua(csname, index, 'global', 'protected')
+  elseif opts.global then
+    token.set_lua(csname, index, 'global')
+  elseif opts.projected then
+    token.set_lua(csname, index, 'protected')
+  else
+    token.set_lua(csname, index)
+  end
+end
+
 return {
   scan = scan,
   Scanner = create_scanner,
-  utils = { parse_spec = parse_spec, scan_oarg = scan_oarg },
+  register_csname = register_csname,
+  utils = {
+    parse_spec = parse_spec,
+    scan_oarg = scan_oarg,
+  },
 }
