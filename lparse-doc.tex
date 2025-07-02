@@ -203,15 +203,16 @@ The types which define optional arguments are:
 
 \InputTex{luatex/function-scan.tex}
 
-\subsection{Class: \texttt{Scanner}}
+\subsection{Function: \texttt{register_csname(csname, fn, opts)}}
 
-\subsubsection{Method: \texttt{Scanner:scan()}}
+The function \lua{register_csname(csname, fn, opts)} registers a Lua
+function under a control sequence name (csname). The first argument is
+the control sequence name without the leading backslash. The second
+argument is the Lua function to be called when the command name is
+called in the TeX code.
 
-\subsubsection{Method: \texttt{Scanner:export()}}
+\InputTex{luatex/function-register-csname.tex}
 
-\subsubsection{Method: \texttt{Scanner:assert()}}
-
-\subsubsection{Method: \texttt{Scanner:debug()}}
 
 % Hilfsfunktionen
 \subsection{Auxiliary functions}

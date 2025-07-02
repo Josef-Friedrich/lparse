@@ -598,10 +598,10 @@ end
 ---@field projected? boolean
 
 ---
----Register a Lua function under a control sequence name `csname`,
+---Register a Lua function under a control sequence name (`csname`).
 ---
----@param csname string
----@param fn function
+---@param csname string # The control sequence name without the leading backslash.
+---@param fn function # The Lua function to be called when the command name is called in the TeX code.
 ---@param opts? RegisterCsnameOptions
 local function register_csname(csname, fn, opts)
   if opts == nil then

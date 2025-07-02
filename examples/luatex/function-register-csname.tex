@@ -1,0 +1,11 @@
+\input lparse.tex
+
+\directlua{
+  lparse.register_csname('lorem', function()
+    tex.print('Lorem ipsum dolor')
+  end)
+}
+
+\lorem % Lorem ipsum dolor
+
+\bye
