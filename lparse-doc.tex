@@ -255,7 +255,7 @@ Then square brackets are assumed to be delimiters.
 %
 % \lua{utils.scan_oarg('(', ')')} sucht beispielsweise nach an einem
 % optionalen Argument in runden Klammern.
-\lua{utils.scan_oarg(‘(’, ‘)’)} searches for an optional argument in
+\lua{utils.scan_oarg('(', ')')} searches for an optional argument in
 round brackets, for example.
 %
 % Die Funktion gibt die Zeichenkette zwischen den Begrenzungszeichen
@@ -301,29 +301,17 @@ preceded by any text, it does not work, otherwise it does.
 
 \section{Implementation}
 
-%%
-%
-%%
+The source code is hosted on
+\href{https://github.com/Josef-Friedrich/lparse}{Github}. The
+following links will take you to the individual files:
 
-\subsection{lparse.lua}
+\begin{itemize}
+\item \href{https://github.com/Josef-Friedrich/lparse/blob/main/lparse.lua}{lparse.lua}
 
-\inputminted[linenos=true]{lua}{lparse.lua}
+\item \href{https://github.com/Josef-Friedrich/lparse/blob/main/lparse.sty}{lparse.sty}
 
-%%
-%
-%%
-
-\clearpage
-
-\subsection{lparse.tex}
-
-\inputminted[linenos=true]{latex}{lparse.tex}
-
-\clearpage
-
-\subsection{lparse.sty}
-
-\inputminted[linenos=true]{latex}{lparse.sty}
+\item \href{https://github.com/Josef-Friedrich/lparse/blob/main/lparse.tex}{lparse.tex}
+\end{itemize}
 
 \pagebreak
 \PrintIndex

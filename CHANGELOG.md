@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Commands (e. g. `\bf`) in optional arguments (`oargs`) were not scanned correctly
+- Fix commands (e. g. `\bf`) in optional arguments (`oargs`) were not scanned correctly
 
 ## [0.2.0] - 2025-06-19
 
