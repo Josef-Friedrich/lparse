@@ -202,14 +202,17 @@ local function scan_oarg(init_delim, end_delim)
   end
 
   ---
-  ---@param t Token
+  ---Convert a token object to a string. If the token is a control sequence
+  ---it is converted to `\\csname`.
   ---
-  ---@return string
+  ---@param t Token The token object.
+  ---
+  ---@return string token_string A string representing the token.
   local function convert_token_to_string(t)
-    if t.index ~= nil then
-      return utf8.char(t.index)
-    else
+    if t.csname ~= nil then
       return '\\' .. t.csname
+    else
+      return utf8.char(t.index)
     end
   end
 
