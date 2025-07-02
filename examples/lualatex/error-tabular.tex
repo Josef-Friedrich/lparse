@@ -1,0 +1,22 @@
+\documentclass{article}
+\begin{document}
+\def\test{
+  \directlua{
+    local lparse = require('lparse')
+    local oarg, marg = lparse.scan('O{} v')
+    print(oarg, marg)
+  }
+}
+\begin{tabular}{l}
+\test{test} suffix \\
+% No file test_error_tabular.aux.
+% 	test
+% 	test
+% ! Missing } inserted.
+% <inserted text>
+%                 }
+% l.17 \end
+%          {tabular}
+prefix \test{test} suffix \\
+\end{tabular}
+\end{document}

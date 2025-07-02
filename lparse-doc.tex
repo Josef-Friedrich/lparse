@@ -272,6 +272,30 @@ must not expand to any characters.
 
 \InputTex{luatex/function-utils.scan-oarg.tex}
 
+\section{Known limitations}
+
+% Im einigen Lua\LaTeX{} Umgebungen funktioniert das Scannen nach
+% optionalen Argument (oargs) nicht.
+In some Lua\LaTeX{} environments, scanning for optional arguments
+(oargs) does not work.
+% Ich weiß leider nicht warum.
+Unfortunately I don't know why.
+% Über Hilfe wäre ich sehr dankbar.
+I would be very grateful for help.
+
+\subsection{In tabular environment}
+
+% Steht in einer |tabular|-Umgebung vor einem Kommando, der mit |lparse|
+% gescannt wird, ein beliebert Text funktioniert es nicht, sonst schon.
+In a |tabular| environment, if a command that is scanned with |lparse| is
+preceded by any text, it does not work, otherwise it does.
+
+\InputTex{lualatex/error-tabular.tex}
+
+\subsection{In multline environment}
+
+\InputTex{lualatex/error-multline.tex}
+
 \clearpage
 
 \section{Implementation}
