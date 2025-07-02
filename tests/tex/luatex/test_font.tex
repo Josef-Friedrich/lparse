@@ -1,0 +1,16 @@
+\directlua{
+  lparse = require('lparse')
+}
+
+font command bf is not scanned
+
+\def\test{\directlua{
+  local oarg, marg = lparse.scan('O{} m')
+  print(oarg)
+  print(marg)
+  }%
+}
+
+\test[font=\bf]{marg}
+
+\bye
