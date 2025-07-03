@@ -13,7 +13,7 @@ always be used as the engine.
 
 ## Current version
 
-2025/06/19 v0.2.0
+2025/07/02 v0.3.0
 
 ## License
 
