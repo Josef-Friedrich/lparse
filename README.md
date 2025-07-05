@@ -1,7 +1,6 @@
 # lparse
 
-Parse and scan macro arguments in `Lua` with `LuaTeX` using a `xparse`
-like argument specification.
+Parse macro arguments with `Lua` using `xparse`-like specification.
 
 The name `lparse` is derived from `xparse`. The `x` has been replaced by
 `l` because this package only works with `LuaTeX`. `l` stands for *Lua*.
